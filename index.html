@@ -2,9 +2,6 @@
 
 
 
-<link rel="icon" href="01.png" type="01.png">
-
-
 <script type="text/javascript">
     
     const KEY_BD = '@usuariosestudo'
@@ -45,7 +42,9 @@ function desenhar(){
         if(FILTRO.trim()){
             const expReg = eval(`/${FILTRO.trim().replace(/[^\d\w]+/g,'.*')}/i`)
             data = data.filter( usuario => {
-                return expReg.test( usuario.nome ) || expReg.test( usuario.cpf ) || expReg.test( usuario.apt )
+                return expReg.test( usuario.nome ) || expReg.test( usuario.cpf ) || expReg.test( usuario.apt )  
+                     
+                
             } )
         }
         data = data
@@ -58,7 +57,9 @@ function desenhar(){
                         <td>${usuario.nome}</td>
                         <td>${usuario.cpf}</td>
                         <td>${usuario.apt}</td>
-                        
+                        <td>${usuario.dia}</td>
+                        <td>${usuario.hora}</td>
+                                                                                       
                         <td>
                             <button onclick='vizualizar("cadastro",false,${usuario.id})'>Editar</button>
                             <button class='vermelho' onclick='perguntarSeDeleta(${usuario.id})'>Deletar</button>
@@ -69,22 +70,24 @@ function desenhar(){
     }
 }
 
-function insertUsuario(nome, cpf, apt){
+function insertUsuario(nome, cpf, apt, dia, hora){
     const id = listaRegistros.ultimoIdGerado + 1;
     listaRegistros.ultimoIdGerado = id;
     listaRegistros.usuarios.push({
-        id, nome, cpf, apt
+        id, nome, cpf, apt, dia, hora
     })
     gravarBD()
     desenhar()
     vizualizar('lista')
 }
 
-function editUsuario(id, nome, cpf, apt){
+function editUsuario(id, nome, cpf, apt, dia, hora){
     var usuario = listaRegistros.usuarios.find( usuario => usuario.id == id )
     usuario.nome = nome;
     usuario.cpf = cpf;
     usuario.apt = apt;
+    usuario.dia = dia;
+    usuario.hora = hora;
     
     gravarBD()
     desenhar()
@@ -110,6 +113,13 @@ function limparEdicao(){
     document.getElementById('nome').value = ''
     document.getElementById('cpf').value = ''
     document.getElementById('apt').value = ''
+    
+    document.getElementById('dia').value = ''
+    
+    document.getElementById('hora').value = ''
+    
+    
+    
 }
 
 function vizualizar(pagina, novo=false, id=null){
@@ -123,6 +133,10 @@ function vizualizar(pagina, novo=false, id=null){
                 document.getElementById('nome').value = usuario.nome
                 document.getElementById('cpf').value = usuario.cpf
                 document.getElementById('apt').value = usuario.apt
+                
+                document.getElementById('dia').value = usuario.dia
+                
+                document.getElementById('hora').value = usuario.hora
             }
         }
         document.getElementById('nome').focus()
@@ -138,11 +152,15 @@ function submeter(e){
         nome: document.getElementById('nome').value,
         cpf: document.getElementById('cpf').value,
         apt: document.getElementById('apt').value,
+        
+        dia: document.getElementById('dia').value,
+        
+        hora: document.getElementById('hora').value,
     }
     if(data.id){
-        editUsuario(data.id, data.nome, data.cpf, data.apt)
+        editUsuario(data.id, data.nome, data.cpf, data.apt, data.dia, data.hora)
     }else{
-        insertUsuario( data.nome, data.cpf, data.apt)
+        insertUsuario( data.nome, data.cpf, data.apt, data.dia, data.hora)
     }
 }
 
@@ -166,7 +184,7 @@ window.addEventListener('load', () => {
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Visitantes</title>
+    <title>Usuários</title>
     <script type="text/javascript" src="main.js">
     
     
@@ -234,6 +252,9 @@ window.addEventListener('load', () => {
     </style>
 
 </head>
+
+
+
 <body page="lista">
     
     <div id="listaRegistros">
@@ -241,11 +262,14 @@ window.addEventListener('load', () => {
         <div style="display: flex;">
             <input style="flex:1" placeholder="PESQUISAR" autofocus="" id="inputPesquisa">
         </div>
-
-<div>
- <button onclick="vizualizar('cadastro', true)">Novo usuário</button>
+        
+        
+        
+        
+        <div>
+            <button onclick="vizualizar('cadastro', true)">Novo usuário</button>
         </div>
-
+        
 
         <table>
             <thead>
@@ -254,6 +278,9 @@ window.addEventListener('load', () => {
                     <th>Nome</th>
                     <th>CPF</th>
                     <th>APT</th>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    
                   
                     
                     
@@ -295,7 +322,45 @@ window.addEventListener('load', () => {
         <div class="label">
             <div>APT</div>
             <div>
-                <input type="text" id="apt" value="3">
+                
+          
+             
+ <input type="text" id="apt" value="3">
+ <br>
+ </div>
+        </div>
+        
+ 
+ <div class="label">
+            <div>data</div>
+            <div>
+                <input type="date" id="dia" value="4">
+            </div>
+        </div>
+        
+        
+        
+        <div class="label">
+            <div>horário</div>
+            <div>
+                <input type="time" id="hora" value="5">
+            </div>
+        </div>
+
+  
+                
+                 
+                
+                
+                
+                
+                
+                 </div> </div>
+                
+                
+                
+                
+                
             </div>
         </div>
 
