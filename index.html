@@ -42,7 +42,8 @@ function desenhar(){
         if(FILTRO.trim()){
             const expReg = eval(`/${FILTRO.trim().replace(/[^\d\w]+/g,'.*')}/i`)
             data = data.filter( usuario => {
-                return expReg.test( usuario.nome ) || expReg.test( usuario.cpf ) || expReg.test( usuario.apt )  
+                return expReg.test( usuario.nome ) || expReg.test( usuario.cpf ) || expReg.test( usuario.apt ) ||               expReg.test( usuario.dia )                
+                
                      
                 
             } )
@@ -184,7 +185,7 @@ window.addEventListener('load', () => {
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuários</title>
+    <title>cadastro de visitante</title>
     <script type="text/javascript" src="main.js">
     
     
@@ -260,7 +261,7 @@ window.addEventListener('load', () => {
     <div id="listaRegistros">
 <br><br>
         <div style="display: flex;">
-            <input style="flex:1" placeholder="PESQUISAR" autofocus="" id="inputPesquisa">
+          <br>  <input style="flex:1" placeholder="PESQUISAR" autofocus="" id="inputPesquisa">
         </div>
         
         
@@ -278,13 +279,15 @@ window.addEventListener('load', () => {
                     <th>Nome</th>
                     <th>CPF</th>
                     <th>APT</th>
-                    <th>Data</th>
-                    <th>Horário</th>
+                    <th>DATA</th>
+                 <th>Horário</th>
+                    <th>📋</th>
+                    
                     
                   
                     
                     
-                </tr>
+              </tr>
             </thead>
             <tbody id="listaRegistrosBody"><tr>
                         
